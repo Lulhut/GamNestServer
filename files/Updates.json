@@ -1,0 +1,40 @@
+{
+  "1.0.5": {
+    "content": [
+      "Added cloud save synchronization between devices",
+      "Improved game launch speed by optimizing cache loading",
+      "Fixed random crashes while downloading updates"
+    ],
+    "required": false
+  },
+  "1.0.4": {
+    "content": [
+      "Added custom themes for the launcher UI",
+      "Integrated FPS overlay support for supported games",
+      "Reduced RAM usage while running in background"
+    ],
+    "required": false
+  },
+  "1.0.3": {
+    "content": [
+      "Added automatic game detection from installed launchers",
+      "Improved update verification system",
+      "Fixed shortcut creation issues on Windows 11"
+    ],
+    "required": true
+  },
+  "1.0.2": {
+    "content": [
+      "Added a cheater programm, that can be activated by clicking on the thunder icon, at the game that you want",
+      "the launcher now updates much more smoothly"
+    ],
+    "required": false
+  },
+  "1.0.1": {
+    "content": [
+      "Add custom game from a specific exe path",
+      "the launcher now updates more smoothly"
+    ],
+    "required": true
+  }
+}
