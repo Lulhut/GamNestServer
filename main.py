@@ -25,21 +25,38 @@ def reload_updates():
         )
     )
 
-def get_updates_range(from_version, to_version):
-    if not from_version in versions:
-        from_version = versions[-1]
-    if not to_version in versions:
+def parse_version(version: str):
+    return tuple(map(int, version.split(".")))
+
+
+def get_updates_range(from_version: str, to_version: str):
+    # fallback if target version is invalid
+    if to_version not in versions:
         to_version = versions[0]
 
-    from_index = versions.index(from_version)
+    # If client version is older than oldest known version,
+    # send ALL updates
+    if (
+        from_version not in versions and
+        parse_version(from_version) < parse_version(versions[-1])
+    ):
+        from_index = len(versions)
+
+    # unknown newer version
+    elif from_version not in versions:
+        from_index = 1
+
+    else:
+        from_index = versions.index(from_version)
+
     to_index = versions.index(to_version)
 
-    selected_versions = {
-        version: updates[version]["content"]
-        for version in versions[to_index:from_index]
-    }
+    selected_versions = versions[to_index:from_index]
 
-    return selected_versions
+    return {
+        version: updates[version]["content"]
+        for version in selected_versions
+    }
 
 def update_range_required(from_version):
     if not from_version in versions:
@@ -64,7 +81,7 @@ def download_updater():
     return send_file("files/updater.zip", as_attachment=True)
 
 @app.route("/update_content", methods=["GET"])
-@limiter.limit("2 per second")
+@limiter.limit("3 per second")
 def update_content():
     from_version = request.args.get("from_version", default=versions[1])
     to_version = request.args.get("to_version", default=versions[0])
